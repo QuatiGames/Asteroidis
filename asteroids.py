@@ -74,8 +74,19 @@ class Asteroids(World):
         da tela. Em caso positivo, eles são recolocados do lado oposto'''
 
         for asteroid in self.asteroids:
+            #Asteroide atravessa em cima
             if asteroid.ymin > HEIGHT:
-                asteroid.move((0, -HEIGHT - asteroid.height))
+                asteroid.move((0, -HEIGHT - asteroid.height + 1))
+            #Asteriode atravessa em baixo
+            if asteroid.ymax < 0: 
+                asteroid.move((0, HEIGHT + asteroid.height - 1))
+            #Asteroide atravessa na direita
+            if asteroid.xmin > WIDTH: 
+                asteroid.move((-WIDTH - asteroid.width + 1, 0))
+            #Asteroide atravessa na esquerda
+            if asteroid.xmax < 0:
+                asteroid.move((WIDTH + asteroid.width - 1, 0))
+
 
     @listen('long-press', 'left')
     def ship_left(self):
@@ -83,7 +94,7 @@ class Asteroids(World):
 
     @listen('long-press', 'right')
     def ship_right(self):
-        pass
+       self.spaceship.rotate(-0.05)
 
     @listen('long-press', 'up')
     def ship_front(self):
