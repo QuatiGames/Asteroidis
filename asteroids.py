@@ -6,8 +6,8 @@ from random import normalvariate, uniform
 #                                 Tarefas
 ###############################################################################
 #
-# Nome/matrícula:
-# Nome/matrícula:
+# Nome/matrícula:Lucas Costa Araujo / 130060313
+# Nome/matrícula:Lucas Gomes Pereira / 130013242
 #
 # 1) Completar o reposicionamento dos asteróids nas quatro direções
 #    dentro da função force_bounds()
@@ -88,17 +88,18 @@ class Asteroids(World):
             if asteroid.xmax < 0:
                 asteroid.move((WIDTH + asteroid.width - 1, 0))
 
+    #Retorna o vetor unitario que indica a direcao que a nave esta orientada
     def calcula_direcao_spaceship(self):
-        direcao = (self.spaceship.vertices[2] -self.spaceship.pos).normalized()
+        direcao = (self.spaceship.vertices[2] - self.spaceship.pos).normalized()
         return direcao
 
     @listen('long-press', 'left')
     def ship_left(self):
-        self.spaceship.rotate(0.05)
+        self.spaceship.rotate(0.1)
 
     @listen('long-press', 'right')
     def ship_right(self):
-       self.spaceship.rotate(-0.05)
+       self.spaceship.rotate(-0.1)
 
     @listen('long-press', 'up')
     def ship_front(self):
@@ -110,8 +111,8 @@ class Asteroids(World):
 
     @listen('key-down', 'space')
     def on_shot(self):
-        vel = Vector(100, 0)
-        pos = self.spaceship.pos
+        vel = self.calcula_direcao_spaceship()*100
+        pos = self.spaceship.vertices[2]
         Circle(2, pos=pos, vel=vel, color='white', world=self)
 
 
