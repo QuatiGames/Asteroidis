@@ -24,6 +24,7 @@ ASTEROIDS_SPEED = 50
 ASTEROIDS_RADIUS = 20
 WIDTH = 800
 HEIGHT = 600
+INTENSIDADE_VEL = 30
 
 ###############################################################################
 #                             Implementação
@@ -87,6 +88,9 @@ class Asteroids(World):
             if asteroid.xmax < 0:
                 asteroid.move((WIDTH + asteroid.width - 1, 0))
 
+    def calcula_direcao_spaceship(self):
+        direcao = (self.spaceship.vertices[2] -self.spaceship.pos).normalized()
+        return direcao
 
     @listen('long-press', 'left')
     def ship_left(self):
@@ -98,17 +102,18 @@ class Asteroids(World):
 
     @listen('long-press', 'up')
     def ship_front(self):
-        pass
+        self.spaceship.vel += INTENSIDADE_VEL*self.calcula_direcao_spaceship()
 
     @listen('long-press', 'down')
     def ship_back(self):
-        pass
+        self.spaceship.vel += -INTENSIDADE_VEL*self.calcula_direcao_spaceship()        
 
     @listen('key-down', 'space')
     def on_shot(self):
         vel = Vector(100, 0)
         pos = self.spaceship.pos
         Circle(2, pos=pos, vel=vel, color='white', world=self)
+
 
 
 if __name__ == '__main__':
